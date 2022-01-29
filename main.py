@@ -1,6 +1,5 @@
 from utils.bot import PetAppBot
 
-# TODO make github folder
 # TODO add telegram setup instruction
 # TODO github action
 # TODO crontab on server (Raspberry PI or HEROKU)
