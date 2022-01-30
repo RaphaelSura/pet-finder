@@ -27,10 +27,19 @@ $ yapf *.py -r -i
 ```
 
 ## Telegram bot setup
-Install Telegram app on your phone or computer
-...
+Install Telegram app on your phone or computer and create an account. Search for Botfather and type the following two commands in the chat:
 
-## CRONTAB on Raspberry PI server
+- ```/start``` to get the BotFather bot setup.
+
+- ```/newbot``` to create a new bot.
+
+Choose a **bot name** e.g. FindMyPetBot. Then choose a **bot usernmae** e.g. mypetfinder_bot (must end with the word 'bot'). After creating the bot, it will display an **HTTP API token**.
+
+In a browser, type https://api.telegram.org/{my_bot_http_api_token}/getUpdates, where you use the correct value for your bot API token. In the response, note down the **Chat ID**. 
+
+Put the **HTTP API token** and **chat ID** into etc/telegram_creds.txt. Note: the *etc* folder is in *.gitignore* as the content shouldn't be public.
+
+## CRONTAB on server (Heroku, Raspberry PI)
 ```
 # python script for Pet App bot, runs avery 10 minutes from 6am til midnight
 */10 6-23 * * * .env/bin/python3 /media/usb1/PythonProjects/pet-finder/main.py
