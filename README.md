@@ -46,4 +46,8 @@ Put the **HTTP API token** and **chat ID** into etc/telegram_creds.txt. Note: th
 */10 6-23 * * * ~/pet-finder/.env/bin/python3 ~/pet-finder/app_with_crontab.py
 ```
 ### Inside DOCKER container
-coming soon
+```
+cd pet-finder
+docker build pet-finder:latest .
+docker run -d --restart unless-stopped
+```
