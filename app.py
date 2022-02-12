@@ -7,6 +7,7 @@ import time
 # TODO switch to PostgreSQL database
 # TODO create a simple API (in GO?) to request pet info
 
+
 def main():
     # database file
     delta_t = 600
