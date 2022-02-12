@@ -1,10 +1,11 @@
 from utils.bot import PetAppBot
 import pathlib
 
-# TODO add telegram setup instruction
-# TODO github action
-# TODO crontab on server (Raspberry PI or HEROKU)
-
+"""
+    # the app is run through crontab and is started every 10 minutes
+    $ crontab -e
+    */10 6-23 * * * /usr/bin/python3 /path-to-folder/pet-finder/app_with_crontab.py
+"""
 
 def main():
     # database file

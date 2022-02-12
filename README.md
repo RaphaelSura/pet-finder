@@ -39,8 +39,11 @@ In a browser, type https://api.telegram.org/{my_bot_http_api_token}/getUpdates, 
 
 Put the **HTTP API token** and **chat ID** into etc/telegram_creds.txt. Note: the *etc* folder is in *.gitignore* as the content shouldn't be public.
 
-## CRONTAB on server (Heroku, Raspberry PI)
+## Run the app - several ways
+### CRONTAB on Ubuntu server
 ```
-# python script for Pet App bot, runs avery 10 minutes from 6am til midnight
-*/10 6-23 * * * .env/bin/python3 /media/usb1/PythonProjects/pet-finder/main.py
+# python script for Pet App bot, runs every 10 minutes from 6am til midnight
+*/10 6-23 * * * ~/pet-finder/.env/bin/python3 ~/pet-finder/app_with_crontab.py
 ```
+### Inside DOCKER container
+coming soon
