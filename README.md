@@ -21,7 +21,7 @@ $ pip install -r requirements.txt
 
 ## Code formatting
 Following Google Python style guide: https://google.github.io/styleguide/pyguide.html. 
-Before pushing code to Github, format the code using the following
+This is set in VScode via ``` .vscode/settings.json ```. Alternatively, run manually:
 ```
 $ yapf *.py -r -i
 ```
