@@ -23,8 +23,10 @@ def main():
 
     pet_database = PetDB(db_path)
     mybot = PetAppBot(website, pet_database, cred_file)
-    mybot.fetch_data_on_page(dog_url, 'dog')
-    mybot.fetch_data_on_page(cat_url, 'cat')
+    mybot.fetch_url_data(dog_url)
+    mybot.parse_items('dog')
+    mybot.fetch_url_data(cat_url)
+    mybot.parse_items('cat')
 
 
 if __name__ == '__main__':
