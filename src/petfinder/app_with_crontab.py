@@ -1,14 +1,14 @@
-from utils.bot import PetAppBot
+from petfinder.utils.bot import PetAppBot
+from petfinder.utils.database import PetDB
 import pathlib
-
-"""
-    # the app is run through crontab and is started every 10 minutes
-    $ crontab -e
-    */10 6-23 * * * /usr/bin/python3 /path-to-folder/pet-finder/app_with_crontab.py
-"""
 
 
 def main():
+    """
+    # the app is run through crontab and is started every 10 minutes
+    $ crontab -e
+    */10 6-23 * * * /usr/bin/python3 /path-to-folder/pet-finder/app_with_crontab.py
+    """
     # database file
     project_dir = pathlib.Path(__file__).parent.resolve()
     db_path = project_dir.joinpath("data", "dyrevaernet.db")
@@ -21,7 +21,8 @@ def main():
     dog_url = "/adopter/?q=e6fec24041f04a949c3897f522576a11_652c4af8b86f4a92be420984a04edf4c#cnt"
     cat_url = "/adopter/?q=e6fec24041f04a949c3897f522576a11_f433d6f7869844e2b86ed4d89d3b05ca#cnt"
 
-    mybot = PetAppBot(website, db_path, cred_file)
+    pet_database = PetDB(db_path)
+    mybot = PetAppBot(website, pet_database, cred_file)
     mybot.fetch_data_on_page(dog_url, 'dog')
     mybot.fetch_data_on_page(cat_url, 'cat')
 

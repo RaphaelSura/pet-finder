@@ -1,18 +1,17 @@
-from utils.bot import PetAppBot
-import pathlib
 import time
+import pathlib
+from petfinder.utils.bot import PetAppBot
+from petfinder.utils.database import PetDB
 
-# TODO github action - check how to run app
-# TODO setup Docker (install on server, make image and build container, then run)
-# TODO switch to PostgreSQL database
-# TODO create a simple API (in GO?) to request pet info
+# to do
+# switch to PostgreSQL database? could be running in its own container
 
 
 def main():
     # database file
     delta_t = 600
-    project_dir = pathlib.Path(__file__).parent.resolve()
-    db_path = project_dir.joinpath("data", "dyrevaernet.db")
+    project_dir = pathlib.Path(__file__).parent.parent.resolve()
+    db_path = project_dir.joinpath("data", "dyrevaernet2.db")
 
     # telegram bot credentials
     cred_file = project_dir.joinpath("etc", "telegram_creds.txt")
@@ -23,13 +22,16 @@ def main():
     cat_url = "/adopter/?q=e6fec24041f04a949c3897f522576a11_f433d6f7869844e2b86ed4d89d3b05ca#cnt"
 
     # start the bot - once
-    mybot = PetAppBot(website, db_path, cred_file)
-    
+    pet_database = PetDB(db_path)
+    mybot = PetAppBot(website, pet_database, cred_file)
+
     # simple time spacing between url request call
     while True:
         try:
-            mybot.fetch_data_on_page(dog_url, 'dog')
-            mybot.fetch_data_on_page(cat_url, 'cat')
+            mybot.fetch_url_data(dog_url)
+            mybot.parse_items('dog')
+            mybot.fetch_url_data(cat_url)
+            mybot.parse_items('cat')
             time.sleep(delta_t)
         except RuntimeError:
             print(f"Error running, retrying in {delta_t} seconds.")
