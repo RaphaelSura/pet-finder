@@ -1,3 +1,5 @@
+![build](https://github.com/RaphaelSura/pet-finder/actions/workflows/python-app.yml/badge.svg)
+
 # pet-finder
 App that scrapes the Danish animal protection association website and sends a telegram when a new pet is available. 
 Small sized projects that samples a lot of practical code, which can easily be transferrable to other projects:
@@ -6,6 +8,7 @@ Small sized projects that samples a lot of practical code, which can easily be t
 - Telegram bot
 - Github action
 - Crontab
+- Docker containers
 
 I use this code as a running project to implement newly learned coding techniques and ideas.
 
@@ -49,5 +52,5 @@ Put the **HTTP API token** and **chat ID** into etc/telegram_creds.txt. Note: th
 ```
 cd pet-finder
 docker build pet-finder:latest .
-docker run -d --restart unless-stopped
+docker run -d --restart unless-stopped pet-finder
 ```
