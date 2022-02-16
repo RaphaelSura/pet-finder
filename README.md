@@ -1,4 +1,4 @@
-![build](https://github.com/RaphaelSura/pet-finder/actions/workflows/python-app.yml/badge.svg)
+![build](https://github.com/RaphaelSura/pet-finder/actions/workflows/build.yml/badge.svg)
 
 # pet-finder
 App that scrapes the Danish animal protection association website and sends a telegram when a new pet is available. 
