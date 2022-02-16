@@ -10,8 +10,8 @@ from petfinder.utils.database import PetDB
 def main():
     # database file
     delta_t = 600
-    project_dir = pathlib.Path(__file__).parent.parent.resolve()
-    db_path = project_dir.joinpath("data", "dyrevaernet2.db")
+    project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
+    db_path = project_dir.joinpath("data", "dyrevaernet.db")
 
     # telegram bot credentials
     cred_file = project_dir.joinpath("etc", "telegram_creds.txt")

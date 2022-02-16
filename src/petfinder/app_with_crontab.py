@@ -10,7 +10,7 @@ def main():
     */10 6-23 * * * /usr/bin/python3 /path-to-folder/pet-finder/app_with_crontab.py
     """
     # database file
-    project_dir = pathlib.Path(__file__).parent.resolve()
+    project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
     db_path = project_dir.joinpath("data", "dyrevaernet.db")
 
     # telegram bot credentials

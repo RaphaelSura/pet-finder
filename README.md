@@ -13,15 +13,18 @@ Small sized projects that samples a lot of practical code, which can easily be t
 I use this code as a running project to implement newly learned coding techniques and ideas.
 
 ## Installation
-Regular installation with git. 
+The repo is setup so as to install ```petfinder``` as a package. Once cloned and done creating a virtual environment, pip install the repo in editable mode (-e), which will take care of all the dependencies.
 ```
 $ git clone https://github.com/RaphaelSura/pet-finder.git
 $ cd pet-finder
 $ python -m virtualenv .env
 $ source .env/bin/activate
-$ pip install -r requirements.txt
+$ pip install -e .
 ```
-
+Now ``` petfinder ``` is like any other python package.
+```
+from petfinder.utils import bot
+```
 ## Code formatting
 Following Google Python style guide: https://google.github.io/styleguide/pyguide.html. 
 This is set in VScode via ``` .vscode/settings.json ```. Alternatively, run manually:
