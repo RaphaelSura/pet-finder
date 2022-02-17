@@ -23,7 +23,7 @@ $ pip install -e .
 ```
 Now ``` petfinder ``` is like any other python package.
 ```
-from petfinder.utils import bot
+from petfinder.database import PetDB
 ```
 ## Code formatting
 Following Google Python style guide: https://google.github.io/styleguide/pyguide.html. 

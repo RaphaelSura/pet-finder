@@ -1,7 +1,7 @@
 import time
 import pathlib
-from petfinder.utils.bot import PetAppBot
-from petfinder.utils.database import PetDB
+from petfinder.bot import PetAppBot
+from petfinder.database import PetDB
 
 # to do
 # switch to PostgreSQL database? could be running in its own container

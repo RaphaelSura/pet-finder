@@ -1,5 +1,5 @@
-from petfinder.utils.bot import PetAppBot
-from petfinder.utils.database import PetDB
+from petfinder.bot import PetAppBot
+from petfinder.database import PetDB
 import pathlib
 
 
