@@ -1,6 +1,7 @@
-import time
+""" Main file to instantiate the bot and database and monitor for new postings every 10 minutes"""
 import pathlib
-from petfinder.bot import PetAppBot
+import time
+from petfinder.bot import WebpageMonitor
 from petfinder.database import PetDB
 
 # to do
@@ -18,20 +19,24 @@ def main():
 
     # url and filters already
     website = "https://dyrevaernet.dk"
-    dog_url = "/adopter/?q=e6fec24041f04a949c3897f522576a11_652c4af8b86f4a92be420984a04edf4c#cnt"
-    cat_url = "/adopter/?q=e6fec24041f04a949c3897f522576a11_f433d6f7869844e2b86ed4d89d3b05ca#cnt"
+    pet_urls = {
+        'dog':
+        "/adopter/?q=e6fec24041f04a949c3897f522576a11_652c4af8b86f4a92be420984a04edf4c#cnt",
+        'cat':
+        "/adopter/?q=e6fec24041f04a949c3897f522576a11_f433d6f7869844e2b86ed4d89d3b05ca#cnt"
+    }
 
-    # start the bot - once
     pet_database = PetDB(db_path)
-    mybot = PetAppBot(website, pet_database, cred_file)
-
     # simple time spacing between url request call
     while True:
         try:
-            mybot.fetch_url_data(dog_url)
-            mybot.parse_items('dog')
-            mybot.fetch_url_data(cat_url)
-            mybot.parse_items('cat')
+            for pet_type, pet_url in pet_urls.items():
+                url = website + pet_url
+                bot = WebpageMonitor(url, pet_type, pet_database, cred_file)
+                bot.fetch_url_data()
+                bot.parse_items()
+                bot.detect_new_postings(send_telegram=True)
+
             time.sleep(delta_t)
         except RuntimeError:
             print(f"Error running, retrying in {delta_t} seconds.")

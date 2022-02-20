@@ -56,7 +56,23 @@ class PetDB:
         self.conn.commit()
 
     def insert_pet(self, args):
-        self.cur.execute("INSERT INTO pet VALUES (NULL,?,?,?,?,?,?,?,?)", args)
+        name, age, pet_type, race, teaser, link_url, date, status_id = args
+
+        # convert race -> race_id
+        race_id = self.cur.execute(
+            f"SELECT id FROM race WHERE name = '{race}'").fetchone()
+        if not race_id:
+            self.insert_race(race)
+            race_id = self.cur.execute(
+                f"SELECT id FROM race WHERE name = '{race}'").fetchone()
+
+        # convert pet_type -> type_id
+        type_id = self.cur.execute(
+            f"SELECT id FROM type WHERE name = '{pet_type}'").fetchone()
+
+        data = (name, age, type_id[0], race_id[0], teaser, link_url, date,
+                status_id)
+        self.cur.execute("INSERT INTO pet VALUES (NULL,?,?,?,?,?,?,?,?)", data)
         self.conn.commit()
 
     def insert_race(self, race):
