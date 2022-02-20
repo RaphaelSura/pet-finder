@@ -54,6 +54,9 @@ Put the **HTTP API token** and **chat ID** into etc/telegram_creds.txt. Note: th
 ### Inside DOCKER container
 ```
 cd pet-finder
-docker build pet-finder:latest .
-docker run -d --restart unless-stopped pet-finder
+docker build -t pet-finder:latest .
+```
+Get the image_id with ``` docker images | grep pet-finder ```. Then run in detached mode:
+```
+docker run -d --restart unless-stopped image_id
 ```

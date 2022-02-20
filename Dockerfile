@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM arm32v7/python:3.8-slim-buster
+FROM arm32v7/python:3.8-buster
 
 RUN pip3 install --upgrade pip setuptools wheel
 
@@ -10,8 +10,9 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip3 install -r requirements.txt
 
-COPY ./src ./src
-COPY ./data ./data
-COPY ./etc ./etc
+COPY . .
 
-CMD [ "python3", "/src/app.py"]
+RUN pip3 install -e /app
+
+
+CMD [ "python3", "src/petfinder/app.py"]
