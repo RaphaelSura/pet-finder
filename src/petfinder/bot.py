@@ -1,19 +1,18 @@
-import requests
-import numpy as np
+""" File where the main bot is defined: class WebpageMonitor"""
 from datetime import datetime
+from pathlib import Path
+import numpy as np
+import requests
 from bs4 import BeautifulSoup
 from petfinder.database import PetDB
-from pathlib import Path
 
 
 class WebpageMonitor:
+    """ Main class fetching data on website, communicating with database and sending telegram """
 
-    def __init__(self,
-                 url: str,
-                 pet_type: str,
-                 database: PetDB,
-                 telegram_info: Path = None):
-        self.url = url
+    def __init__(self, website: str, pet_type: str, database: PetDB,
+                 telegram_info: Path):
+        self.website = website
         self.pet_type = pet_type
         self.active_postings = {}
         self.page_items = []
@@ -23,12 +22,11 @@ class WebpageMonitor:
         self.filter = {'dog': '', 'cat': 'inde'}
 
         # credentials for sending telegram
-        if telegram_info:
-            self.token, self.chat_id = np.loadtxt(telegram_info, dtype=str)
+        self.token, self.chat_id = np.loadtxt(telegram_info, dtype=str)
 
-    def fetch_url_data(self):
+    def fetch_url_data(self, specific_url):
         # define browser options
-        url = self.url
+        url = self.website + specific_url
         response = requests.get(url, timeout=10)
         soup = BeautifulSoup(response.content, 'html.parser')
         self.page_items = soup.find_all('div', {'class': 'item match'})
@@ -38,7 +36,7 @@ class WebpageMonitor:
         for item in self.page_items:
             # link to posting
             link = item.attrs['onclick']
-            link_url = self.url + link.split("'")[-2]
+            link_url = self.website + link.split("'")[-2]
 
             # posting info
             name = item.find('h3').text
@@ -60,7 +58,7 @@ class WebpageMonitor:
             if self.filter[self.pet_type] in name:
                 self.active_postings[link_url] = data
 
-    def detect_new_postings(self, send_telegram=False):
+    def detect_new_postings(self):
         for url, data in self.active_postings.items():
             # returns id if exists else None
             curr_post_id = self.database.cur.execute(
@@ -69,8 +67,7 @@ class WebpageMonitor:
             if not curr_post_id:
                 self.database.insert_pet(data)
                 useful_data = (self.pet_type, data[0], data[3], data[1], url)
-                if send_telegram:
-                    self.notify_user(useful_data)
+                self.notify_user(useful_data)
 
         # update status in database - need to work on this
         # status is 2 (inactive) for all, then set 1 (active) for all postings
@@ -78,8 +75,9 @@ class WebpageMonitor:
 
     def notify_user(self, pet_info):
         # format the message:
-        msg = "New {} up on Dyreværnet \n\n{} \n{} \n{} \n{}".format(*pet_info)
+        pet_emoji = {'dog': '🐕', 'cat': '🐈'}
+        pet_type, name, race, age, url = pet_info
+        msg = f"New {pet_emoji[pet_type]} up on Dyreværnet. \n\n{name}\n{race}\n{age}\n{url}"
         # send the telegram
-        print(msg)
-        send_text = f'https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=Markdown&text={msg}'
-        _ = requests.get(send_text)
+        send_text = f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=Markdown&text={msg}"
+        requests.get(send_text)

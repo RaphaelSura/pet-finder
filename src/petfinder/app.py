@@ -31,11 +31,11 @@ def main():
     while True:
         try:
             for pet_type, pet_url in pet_urls.items():
-                url = website + pet_url
-                bot = WebpageMonitor(url, pet_type, pet_database, cred_file)
-                bot.fetch_url_data()
+                bot = WebpageMonitor(website, pet_type, pet_database,
+                                     cred_file)
+                bot.fetch_url_data(pet_url)
                 bot.parse_items()
-                bot.detect_new_postings(send_telegram=True)
+                bot.detect_new_postings()
 
             time.sleep(delta_t)
         except RuntimeError:

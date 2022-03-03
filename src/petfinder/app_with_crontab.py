@@ -15,7 +15,6 @@ def main():
     # database file
     project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
     db_path = project_dir.joinpath("data", "dyrevaernet.db")
-
     # telegram bot credentials
     cred_file = project_dir.joinpath("etc", "telegram_creds.txt")
 
@@ -30,11 +29,10 @@ def main():
 
     pet_database = PetDB(db_path)
     for pet_type, pet_url in pet_urls.items():
-        url = website + pet_url
-        bot = WebpageMonitor(url, pet_type, pet_database, cred_file)
-        bot.fetch_url_data()
+        bot = WebpageMonitor(website, pet_type, pet_database, cred_file)
+        bot.fetch_url_data(pet_url)
         bot.parse_items()
-        bot.detect_new_postings(send_telegram=True)
+        bot.detect_new_postings()
 
 
 if __name__ == '__main__':
